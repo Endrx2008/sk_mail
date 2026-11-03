@@ -1,0 +1,40 @@
+[
+  {
+    "namespace": "skaiMemory",
+    "functions": [
+      {
+        "name": "available",
+        "type": "function",
+        "description": "True when the SKAI_ Memory vault exists on this computer.",
+        "async": true,
+        "parameters": []
+      },
+      {
+        "name": "list",
+        "type": "function",
+        "description": "Entries of a folder inside the vault: [{name, isDir}].",
+        "async": true,
+        "parameters": [{ "name": "dir", "type": "string" }]
+      },
+      {
+        "name": "read",
+        "type": "function",
+        "description": "Text of a note (.md) inside the vault.",
+        "async": true,
+        "parameters": [{ "name": "path", "type": "string" }]
+      },
+      {
+        "name": "write",
+        "type": "function",
+        "description": "Ask the privileged helper to register / write / append / delete a note of this app. The helper decides what the caller may change.",
+        "async": true,
+        "parameters": [
+          { "name": "op", "type": "string" },
+          { "name": "path", "type": "string" },
+          { "name": "text", "type": "string" },
+          { "name": "caller", "type": "string" }
+        ]
+      }
+    ]
+  }
+]

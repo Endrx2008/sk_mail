@@ -1,0 +1,63 @@
+[
+  {
+    "namespace": "skaiSidebar",
+    "functions": [
+      {
+        "name": "setVisible",
+        "type": "function",
+        "description": "Shows or hides the SKAI sidebar on the right of a main Thunderbird window (it is created the first time).",
+        "async": true,
+        "parameters": [
+          {
+            "name": "windowId",
+            "type": "integer"
+          },
+          {
+            "name": "visible",
+            "type": "boolean"
+          },
+          {
+            "name": "url",
+            "type": "string",
+            "description": "Extension page loaded in the sidebar."
+          }
+        ]
+      },
+      {
+        "name": "isVisible",
+        "type": "function",
+        "async": true,
+        "parameters": [
+          {
+            "name": "windowId",
+            "type": "integer"
+          }
+        ]
+      },
+      {
+        "name": "openAccountSetup",
+        "type": "function",
+        "description": "Opens Thunderbird's own 'add mail account' window (Account Hub) in a main window.",
+        "async": true,
+        "parameters": [
+          {
+            "name": "windowId",
+            "type": "integer"
+          }
+        ]
+      },
+      {
+        "name": "openNewCalendar",
+        "type": "function",
+        "description": "Opens Thunderbird's own 'New calendar' window.",
+        "async": true,
+        "parameters": [
+          {
+            "name": "windowId",
+            "type": "integer"
+          }
+        ]
+      }
+    ]
+  }
+]
