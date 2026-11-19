@@ -1,0 +1,90 @@
+[
+  {
+    "namespace": "skaiCalendar",
+    "functions": [
+      {
+        "name": "getEvents",
+        "type": "function",
+        "description": "Events of every enabled calendar between two local ISO dates (YYYY-MM-DDTHH:MM:SS). Recurring series appear once, with their rule.",
+        "async": true,
+        "parameters": [
+          {
+            "name": "start",
+            "type": "string"
+          },
+          {
+            "name": "end",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "getCategories",
+        "type": "function",
+        "async": true,
+        "parameters": []
+      },
+      {
+        "name": "addEvent",
+        "type": "function",
+        "description": "Adds an event to the calendar selected in the main window (or the first writable one).",
+        "async": true,
+        "parameters": [
+          {
+            "name": "event",
+            "type": "object",
+            "additionalProperties": {
+              "type": "any"
+            }
+          }
+        ]
+      },
+      {
+        "name": "modifyEvent",
+        "type": "function",
+        "description": "Changes fields of an event (whole series for recurring events).",
+        "async": true,
+        "parameters": [
+          {
+            "name": "id",
+            "type": "string"
+          },
+          {
+            "name": "fields",
+            "type": "object",
+            "additionalProperties": {
+              "type": "any"
+            }
+          }
+        ]
+      },
+      {
+        "name": "deleteEvent",
+        "type": "function",
+        "description": "Deletes an event (whole series for recurring events).",
+        "async": true,
+        "parameters": [
+          {
+            "name": "id",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "hasWritableCalendar",
+        "type": "function",
+        "description": "True if at least one enabled calendar can take new events.",
+        "async": true,
+        "parameters": []
+      }
+    ],
+    "events": [
+      {
+        "name": "onCalendarsChanged",
+        "type": "function",
+        "description": "A calendar was added, removed, turned on/off or became read-only/writable.",
+        "parameters": []
+      }
+    ]
+  }
+]

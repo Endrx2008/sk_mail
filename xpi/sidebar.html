@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SKAI</title>
+  <link rel="stylesheet" href="sidebar.css">
+</head>
+<body>
+  <header>
+    <div id="modes" class="modes" role="tablist">
+      <button id="mode-mail" class="mode" data-mode="mail">Mail</button>
+      <button id="mode-calendar" class="mode" data-mode="calendar">Calendar</button>
+    </div>
+    <button id="settings" class="icon" title="AI settings (Ollama)">&#9881;</button>
+  </header>
+  <div id="model-line" class="hint"></div>
+
+  <!-- Mail assistant: same three tabs as skmail's AI sidebar -->
+  <section id="panel-mail" class="panel">
+    <!-- shown instead of the mail assistant while there is no mail account -->
+    <div id="mail-gate" class="gate">
+      <h2>Chat with SKAI</h2>
+      <p>To start chatting with SKAI, log in to your email account first.</p>
+      <button id="mail-gate-btn">Log in to your email</button>
+    </div>
+    <div class="tabs" role="tablist">
+      <button class="tab" data-tab="chat">Chat</button>
+      <button class="tab" data-tab="summary">Summary</button>
+      <button class="tab" data-tab="reply">Reply</button>
+    </div>
+
+    <div class="tabpage" id="tab-summary">
+      <p class="context">No message selected.</p>
+      <button id="summary-btn" disabled>Summarize</button>
+      <div id="summary-out" class="output"></div>
+    </div>
+
+    <div class="tabpage" id="tab-reply">
+      <p class="context">No message selected.</p>
+      <button id="reply-btn" disabled>Generate reply draft</button>
+      <textarea id="reply-out" placeholder="The draft appears here and can be edited before you use it."></textarea>
+      <button id="reply-use" disabled>Use this reply</button>
+    </div>
+
+    <div class="tabpage" id="tab-chat">
+      <h2>Chat with SKAI</h2>
+      <div id="mail-chat" class="chatlog bubbles"></div>
+      <label class="check"><input type="checkbox" id="mail-chat-context" disabled> Include the open email as context</label>
+      <div class="inputrow">
+        <input id="mail-chat-input" type="text" placeholder="Write a message to SKAI…">
+        <button id="mail-chat-send">Send</button>
+      </div>
+      <button id="mail-chat-new">New conversation</button>
+    </div>
+  </section>
+
+  <!-- Calendar assistant: skalendar's chat -->
+  <section id="panel-calendar" class="panel">
+    <!-- shown instead of the chat while no calendar can take new events -->
+    <div id="cal-gate" class="gate">
+      <h2>Chat with SKAI</h2>
+      <p>You have no calendar SKAI can use yet (Thunderbird's "Home" calendar
+        starts turned off). Create a new calendar to start chatting.</p>
+      <button id="cal-gate-btn">Create new calendar</button>
+    </div>
+    <h2>Chat with SKAI</h2>
+    <p class="hint">Say what you want to do, e.g. "move Monday's meeting to 3 pm"</p>
+    <div id="cal-chat" class="chatlog bubbles"></div>
+    <div class="inputrow">
+      <input id="cal-input" type="text" placeholder="Write a message to SKAI…">
+      <button id="cal-send">Send</button>
+    </div>
+  </section>
+
+  <!-- Shared "AI unavailable" popup (skcore/ai_error.py) -->
+  <div id="modal" class="modal" hidden>
+    <div class="dialog" role="alertdialog" aria-labelledby="modal-title">
+      <h3 id="modal-title"></h3>
+      <p id="modal-text"></p>
+      <div class="buttons">
+        <button id="modal-no" hidden>No</button>
+        <button id="modal-ok">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="lib/ollama.js"></script>
+  <script src="lib/skai_memory.js"></script>
+  <script src="lib/memory_hook.js"></script>
+  <script src="sidebar.js"></script>
+</body>
+</html>

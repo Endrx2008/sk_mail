@@ -1,0 +1,91 @@
+{
+  "manifest_version": 2,
+  "name": "SKAI for Thunderbird",
+  "version": "1.1.0",
+  "description": "Skorpion OS local AI (Ollama) for Thunderbird: a sidebar with a mail assistant (summary, reply draft, chat) and a calendar assistant (chat that adds, moves and deletes events).",
+  "author": "Miot Enrico",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "skai-thunderbird@skorpion-os",
+      "strict_min_version": "128.0"
+    }
+  },
+  "icons": {
+    "32": "icons/skai.svg",
+    "64": "icons/skai.svg"
+  },
+  "background": {
+    "scripts": [
+      "lib/ollama.js",
+      "background.js"
+    ]
+  },
+  "browser_action": {
+    "default_title": "SKAI sidebar",
+    "default_label": "SKAI",
+    "default_icon": "icons/skai.svg",
+    "allowed_spaces": [
+      "mail",
+      "calendar",
+      "tasks"
+    ]
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false
+  },
+  "permissions": [
+    "messagesRead",
+    "accountsRead",
+    "compose",
+    "storage",
+    "tabs",
+    "http://localhost/*",
+    "http://127.0.0.1/*",
+    "<all_urls>"
+  ],
+  "experiment_apis": {
+    "skaiSidebar": {
+      "schema": "experiments/sidebar/schema.json",
+      "parent": {
+        "scopes": [
+          "addon_parent"
+        ],
+        "paths": [
+          [
+            "skaiSidebar"
+          ]
+        ],
+        "script": "experiments/sidebar/implementation.js"
+      }
+    },
+    "skaiCalendar": {
+      "schema": "experiments/calendar/schema.json",
+      "parent": {
+        "scopes": [
+          "addon_parent"
+        ],
+        "paths": [
+          [
+            "skaiCalendar"
+          ]
+        ],
+        "script": "experiments/calendar/implementation.js"
+      }
+    },
+    "skaiMemory": {
+      "schema": "experiments/memory/schema.json",
+      "parent": {
+        "scopes": [
+          "addon_parent"
+        ],
+        "paths": [
+          [
+            "skaiMemory"
+          ]
+        ],
+        "script": "experiments/memory/implementation.js"
+      }
+    }
+  }
+}

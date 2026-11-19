@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SKAI settings</title>
+  <link rel="stylesheet" href="sidebar.css">
+  <style>
+    body { overflow: auto; max-width: 560px; gap: 10px; padding: 14px; }
+    label { display: flex; flex-direction: column; gap: 4px; }
+    .row { display: flex; gap: 6px; }
+    .row select, .row input { flex: 1; min-width: 0; }
+    select {
+      background: var(--panel); color: var(--text); border: 1px solid var(--border);
+      border-radius: 4px; padding: 5px; font: inherit;
+    }
+  </style>
+</head>
+<body>
+  <p>The SKAI assistant runs entirely on this computer through <b>Ollama</b>: no email or
+  calendar entry leaves the computer. Models are installed with SKAI Manager (Alt+F9).</p>
+
+  <label>Ollama host
+    <input id="host" type="text" placeholder="http://localhost:11434">
+  </label>
+
+  <label>Model
+    <span class="row">
+      <select id="model"></select>
+      <button id="refresh">Refresh</button>
+    </span>
+  </label>
+  <p id="effective" class="hint"></p>
+
+  <div class="row" style="justify-content: flex-end; flex: 0">
+    <button id="save">Save</button>
+  </div>
+  <p id="status" class="hint"></p>
+
+  <script src="lib/ollama.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>
