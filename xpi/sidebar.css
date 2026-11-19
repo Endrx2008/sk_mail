@@ -1,7 +1,7 @@
 /* Copyright (C) 2026 Enrico Miot (EndrX)
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-/* Colours of the old Skorpion suite theme (skcore/resources/style*.qss). */
+/* Colours of the Skorpion office theme (light and dark). */
 :root {
   color-scheme: light dark;
   --bg: #ffffff;

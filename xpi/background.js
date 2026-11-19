@@ -2,7 +2,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 /* Puts the SKAI sidebar in every main Thunderbird window and lets the
- * toolbar button show/hide it. Visible by default (like skmail's AI dock);
+ * toolbar button show/hide it. Visible by default;
  * the last choice is remembered.
  */
 "use strict";

@@ -16,7 +16,7 @@
   </header>
   <div id="model-line" class="hint"></div>
 
-  <!-- Mail assistant: same three tabs as skmail's AI sidebar -->
+  <!-- Mail assistant: chat, summary, reply draft -->
   <section id="panel-mail" class="panel">
     <!-- shown instead of the mail assistant while there is no mail account -->
     <div id="mail-gate" class="gate">
@@ -55,7 +55,7 @@
     </div>
   </section>
 
-  <!-- Calendar assistant: skalendar's chat -->
+  <!-- Calendar assistant: a chat that changes events -->
   <section id="panel-calendar" class="panel">
     <!-- shown instead of the chat while no calendar can take new events -->
     <div id="cal-gate" class="gate">
@@ -73,7 +73,7 @@
     </div>
   </section>
 
-  <!-- Shared "AI unavailable" popup (skcore/ai_error.py) -->
+  <!-- "AI unavailable" popup, same text as every SKAI tool -->
   <div id="modal" class="modal" hidden>
     <div class="dialog" role="alertdialog" aria-labelledby="modal-title">
       <h3 id="modal-title"></h3>

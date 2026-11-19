@@ -4,11 +4,11 @@
 /* Minimal client for the local Ollama REST API, shared by the sidebar,
  * the options page and the background script.
  *
- * Same behaviour as the old Skorpion apps (skcore/ollama.py + skcore/model.py):
+ * Same behaviour as every SKAI tool:
  * - host and model come from the settings (storage.local);
  * - an empty model means "automatic": the installed model with the most
- *   parameters (parameter_size from /api/tags) is used, i.e. the biggest
- *   one, like the launcher and SKAI Manager;
+ *   parameters (parameter_size from /api/tags) is used, the size on disk
+ *   only breaking ties, like the launcher and SKAI Manager;
  * - /api/chat is called streaming (pieces joined here), optional JSON mode
  *   and temperature.
  */
@@ -89,15 +89,15 @@ async function skaiListModelsDetailed(host) {
 
 /** '14B', '3.8B', '70M' -> comparable number; empty or unknown -> 0. */
 function skaiParameterCount(parameterSize) {
-  const match = /^([\d.]+)\s*([kKmMbB])?/.exec((parameterSize || "").trim());
+  const match = /^([\d.]+)\s*([kKmMbBtT])?/.exec((parameterSize || "").trim());
   if (!match) {
     return 0;
   }
-  const mult = { k: 1e3, m: 1e6, b: 1e9 }[(match[2] || "").toLowerCase()] || 1;
+  const mult = { k: 1e3, m: 1e6, b: 1e9, t: 1e12 }[(match[2] || "").toLowerCase()] || 1;
   return parseFloat(match[1]) * mult;
 }
 
-/** The biggest installed model (most parameters, then biggest file), or "". */
+/** The installed model with the most parameters (then the biggest file), or "". */
 function skaiPickBest(models) {
   if (!models.length) {
     return "";

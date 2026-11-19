@@ -3,13 +3,12 @@
  */
 /* Experiment: read and change Thunderbird calendar events.
  *
- * Thunderbird has no calendar API for add-ons. This is the same job that
- * skalendar's core/db.py did for its SQLite file, done on Thunderbird's own
- * calendars: the model never touches them, the sidebar turns its JSON
- * actions into these calls.
+ * Thunderbird has no calendar API for add-ons, so this experiment works on
+ * Thunderbird's own calendars: the model never touches them, the sidebar
+ * turns its JSON actions into these calls.
  *
  * Event ids given to the add-on are "<calendar id>/<item id>". Dates are
- * local ISO strings without time zone (YYYY-MM-DDTHH:MM:SS), like skalendar.
+ * local ISO strings without time zone (YYYY-MM-DDTHH:MM:SS).
  */
 "use strict";
 

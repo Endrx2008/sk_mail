@@ -1,8 +1,8 @@
 /* Copyright (C) 2026 Enrico Miot (EndrX)
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-/* SKAI sidebar: the mail assistant of skmail and the calendar assistant of
- * skalendar, rebuilt on Thunderbird's own mail and calendar.
+/* SKAI sidebar: a mail assistant (chat, summary, reply draft) and a
+ * calendar assistant, working on Thunderbird's own mail and calendars.
  */
 "use strict";
 
@@ -11,13 +11,12 @@ const $ = (id) => document.getElementById(id);
 
 /* ------------------------------------------------------------ shared UI */
 
-// Same text as skcore/ai_error.py: one popup for every AI failure.
+// Same text as every SKAI tool (skcommon.AI_UNAVAILABLE_MESSAGE in the launcher).
 const AI_UNAVAILABLE_TITLE = "AI unavailable";
 const AI_UNAVAILABLE_MESSAGE =
   "AI features are disabled.\n" +
-  "It looks like you turned off AI in the skai settings.\n" +
-  "Without a selected model, skai cannot function.\n" +
-  "Press any key to exit...";
+  "It looks like you turned off AI in the SKAI settings.\n" +
+  "Without a selected model, SKAI cannot function.";
 
 let modalResolve = null;
 
@@ -72,7 +71,7 @@ function aiErrorText(error) {
       return ["Model not installed",
         `The model "${error.detail}" chosen in the SKAI settings is not installed.\n` +
         "Open the settings (gear button) and pick an installed model, or leave the " +
-        "model empty to use the biggest installed one."];
+        "model empty to use the installed one with the most parameters."];
     case "timeout":
       return ["SKAI is taking too long",
         "The model sent nothing for 10 minutes, so SKAI stopped waiting.\n" +
@@ -136,7 +135,7 @@ $("settings").addEventListener("click", () => browser.runtime.openOptionsPage())
 async function refreshModelLine() {
   const { model, automatic } = await skaiResolve();
   $("model-line").textContent = model
-    ? `Model: ${model}${automatic ? " (automatic: biggest installed)" : ""}`
+    ? `Model: ${model}${automatic ? " (automatic: most parameters)" : ""}`
     : "Model: none available";
 }
 browser.storage.onChanged.addListener(() => refreshModelLine());
@@ -382,7 +381,7 @@ async function composeDetailsWhenReady(tabId) {
   return browser.compose.getComposeDetails(tabId);
 }
 
-// skmail: open a reply to the current message with the draft above the quote
+// Open a reply to the current message with the draft above the quote
 $("reply-use").addEventListener("click", async () => {
   const text = $("reply-out").value.trim();
   if (!text || !currentMessage) {
@@ -480,8 +479,8 @@ $("mail-chat-new").addEventListener("click", startMailChat);
 
 /* -------------------------------------------------- calendar assistant */
 
-// skalendar/core/ollama_agent.py, in English. The model only proposes
-// actions; they are applied here through the skaiCalendar experiment.
+// The model only proposes actions; they are applied here through the
+// skaiCalendar experiment.
 const CALENDAR_SYSTEM_PROMPT = `You are SKAI, the assistant of the calendar in Thunderbird on Skorpion OS.
 If the user asks who you are, say in "reply" that you are SKAI.
 Your job is to read the user's message and turn it into a list of structured actions

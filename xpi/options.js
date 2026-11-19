@@ -10,7 +10,7 @@ async function effectiveText(host) {
   try {
     const best = skaiPickBest(await skaiListModelsDetailed(host));
     return best
-      ? `Automatic uses the biggest installed model: ${best}.`
+      ? `Automatic uses the installed model with the most parameters: ${best}.`
       : "Ollama has no model installed yet.";
   } catch (e) {
     return `Ollama is not reachable at ${host}.`;
@@ -21,7 +21,7 @@ async function fillModels(selected) {
   const host = $("host").value.trim() || SKAI_DEFAULT_HOST;
   const select = $("model");
   select.textContent = "";
-  const auto = new Option("Automatic (biggest installed)", AUTOMATIC);
+  const auto = new Option("Automatic (most parameters)", AUTOMATIC);
   select.append(auto);
   let names = [];
   try {
