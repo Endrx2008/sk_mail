@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "SKAI for Thunderbird",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Skorpion OS local AI (Ollama) for Thunderbird: a sidebar with a mail assistant (summary, reply draft, chat) and a calendar assistant (chat that adds, moves and deletes events).",
   "author": "Enrico Miot (EndrX)",
   "browser_specific_settings": {
