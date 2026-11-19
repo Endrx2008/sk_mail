@@ -1,3 +1,6 @@
+/* Copyright (C) 2026 Enrico Miot (EndrX)
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 /* Minimal client for the local Ollama REST API, shared by the sidebar,
  * the options page and the background script.
  *

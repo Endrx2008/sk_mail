@@ -1,3 +1,6 @@
+/* Copyright (C) 2026 Enrico Miot (EndrX)
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 /* Experiment: a real sidebar in the main Thunderbird window.
  *
  * Thunderbird has no sidebar API for add-ons, so this puts a splitter and a

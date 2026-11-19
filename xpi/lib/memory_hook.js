@@ -1,3 +1,6 @@
+/* Copyright (C) 2026 Enrico Miot (EndrX)
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 /* SKAI_ Memory for the sidebar chats: what other SKAI apps know goes into the prompt, and a short record of
  * each exchange is kept in this add-on's own notes (plugins/sk_mail/). Every failure is swallowed: without the
  * memory (not installed, no permission to write) the chats work exactly as before. */

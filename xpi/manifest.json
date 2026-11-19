@@ -3,7 +3,7 @@
   "name": "SKAI for Thunderbird",
   "version": "1.1.0",
   "description": "Skorpion OS local AI (Ollama) for Thunderbird: a sidebar with a mail assistant (summary, reply draft, chat) and a calendar assistant (chat that adds, moves and deletes events).",
-  "author": "Miot Enrico",
+  "author": "Enrico Miot (EndrX)",
   "browser_specific_settings": {
     "gecko": {
       "id": "skai-thunderbird@skorpion-os",

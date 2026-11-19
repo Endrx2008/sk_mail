@@ -1,3 +1,6 @@
+/* Copyright (C) 2026 Enrico Miot (EndrX)
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 /* Experiment: access to SKAI_ Memory (/var/lib/skai/SKAI_ Memory) for the add-on.
  *
  * Reading is plain file reading (IOUtils); writing runs the root-owned helper

@@ -1,3 +1,6 @@
+/* Copyright (C) 2026 Enrico Miot (EndrX)
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 /* SKAI sidebar: the mail assistant of skmail and the calendar assistant of
  * skalendar, rebuilt on Thunderbird's own mail and calendar.
  */

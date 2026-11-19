@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Copyright (C) 2026 Enrico Miot (EndrX)
+# Licensed under GNU GPL v3 or later — see the LICENSE file or <https://www.gnu.org/licenses/>
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Make xpi/lib/skai_memory.js (a classic script defining SkaiMemory) from the ES-module skai_memory.js
 of the sk_notes repository: python3 tools/make_memory_lib.py <path to skai_memory.js>"""
 import re, sys

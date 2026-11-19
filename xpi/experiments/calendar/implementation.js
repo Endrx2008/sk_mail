@@ -1,3 +1,6 @@
+/* Copyright (C) 2026 Enrico Miot (EndrX)
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 /* Experiment: read and change Thunderbird calendar events.
  *
  * Thunderbird has no calendar API for add-ons. This is the same job that
