@@ -534,6 +534,7 @@ Rules:
 
 const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const FREQS = ["DAILY", "WEEKLY", "MONTHLY", "YEARLY"];
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}(?::\d{2})?)?$/;
 
 let calendarHistory = []; // [{role, content}], plain texts only
 let shortIds = new Map(); // number shown to the model -> real event id
@@ -595,6 +596,31 @@ function realId(id) {
   return real;
 }
 
+/** "Title, 2026-11-25 10:00-11:00 (Work, weekly until 2026-12-31)" from an event as the calendar stored it. */
+function describeEvent(e) {
+  const day = (iso) => String(iso || "").slice(0, 10);
+  const time = (iso) => String(iso || "").slice(11, 16);
+  let when;
+  if (e.all_day) {
+    when = day(e.start);
+  } else if (day(e.start) === day(e.end)) {
+    when = `${day(e.start)} ${time(e.start)}-${time(e.end)}`;
+  } else {
+    when = `${day(e.start)} ${time(e.start)} - ${day(e.end)} ${time(e.end)}`;
+  }
+  const extra = [];
+  if (e.category) {
+    extra.push(e.category);
+  }
+  if (e.recurrence) {
+    extra.push(e.recurrence.toLowerCase() + (e.recurrence_until ? ` until ${day(e.recurrence_until)}` : ""));
+  }
+  return `"${e.title || "Untitled"}", ${when}${extra.length ? ` (${extra.join(", ")})` : ""}` +
+    (e.calendar ? ` in calendar ${e.calendar}` : "");
+}
+
+/** Applies the model's actions. Every line describes what the calendar really holds afterwards
+ *  (read back from it), what the user declined and what failed: never what the model claimed. */
 async function applyCalendarActions(actions, titles) {
   const applied = [];
   for (const act of Array.isArray(actions) ? actions : []) {
@@ -607,6 +633,12 @@ async function applyCalendarActions(actions, titles) {
         }
         if (!act.start) {
           throw new Error("missing start");
+        }
+        // checked here: an error thrown inside the calendar experiment reaches us without its message
+        for (const [name, value] of [["start", act.start], ["end", act.end], ["recurrence_until", act.recurrence_until]]) {
+          if (value && !ISO_DATE.test(String(value))) {
+            throw new Error(`invalid ${name} date "${value}" (expected YYYY-MM-DDTHH:MM:SS)`);
+          }
         }
         // small models copy the example: a series that ends before its
         // second occurrence is just a single event
@@ -623,21 +655,23 @@ async function applyCalendarActions(actions, titles) {
           recurrence,
           recurrence_until: recurrence ? act.recurrence_until || "" : "",
         });
-        const suffix = recurrence ? ` (recurrence ${recurrence})` : "";
-        applied.push(`Created event #${shortId(added.id)}: ${act.title || "Untitled"}${suffix}`);
+        applied.push(`Created event #${shortId(added.id)}: ${describeEvent(added)}`);
       } else if (type === "edit") {
-        await browser.skaiCalendar.modifyEvent(realId(act.id), act.fields || {});
-        applied.push(`Changed event #${act.id}`);
+        const id = realId(act.id);
+        const saved = await browser.skaiCalendar.modifyEvent(id, act.fields || {});
+        applied.push(`Changed event #${act.id}, now: ${describeEvent(saved)}`);
       } else if (type === "delete") {
         const id = realId(act.id);
         const title = titles.get(id) || `#${act.id}`;
         const ok = await showModal("Delete event", `Delete "${title}" from the calendar?`, { question: true });
         if (!ok) {
-          applied.push(`Not deleted (you said no): event #${act.id}`);
+          applied.push(`Not deleted (you said no): event #${act.id} "${title}"`);
           continue;
         }
-        await browser.skaiCalendar.deleteEvent(id);
-        applied.push(`Deleted event #${act.id}`);
+        const gone = await browser.skaiCalendar.deleteEvent(id);
+        applied.push(`Deleted event #${act.id}: ${describeEvent(gone)}`);
+      } else {
+        applied.push(`Action ignored (unknown type ${JSON.stringify(type)})`);
       }
     } catch (e) {
       applied.push(`Action failed (${type}): ${e.message || e}`);
@@ -686,8 +720,10 @@ async function sendCalendarMessage() {
     const reply = typeof payload.reply === "string" && payload.reply ? payload.reply : "Done.";
     const applied = await applyCalendarActions(payload.actions, titles);
     addCalBubble(applied.length ? `${reply}\n\n${applied.join("\n")}` : reply, false);
-    calendarHistory.push({ role: "user", content: text }, { role: "assistant", content: reply });
-    skaiMemoryRemember("calendar", text, reply);
+    // the history and the memory keep what really happened in the calendar, not the model's claim
+    const outcome = applied.length ? `Calendar changes:\n${applied.join("\n")}` : "No change to the calendar.";
+    calendarHistory.push({ role: "user", content: text }, { role: "assistant", content: `${reply}\n\n${outcome}` });
+    skaiMemoryRemember("calendar", text, applied.length ? outcome : `${outcome} ${reply}`);
   } catch (e) {
     pending.remove();
     if (e instanceof OllamaError) {

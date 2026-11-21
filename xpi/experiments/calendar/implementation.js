@@ -286,7 +286,8 @@ this.skaiCalendar = class extends ExtensionCommon.ExtensionAPI {
           }
           const freq = setRecurrence(item, props.recurrence, props.recurrence_until);
           const added = await calendar.addItem(item);
-          return { id: `${calendar.id}/${added.id}`, calendar: calendar.name, recurrence: freq };
+          // what the calendar really stored (dates normalised, recurrence kept or dropped)
+          return { ...describe(calendar, added || item), recurrence: freq };
         },
 
         async modifyEvent(id, fields) {
@@ -329,8 +330,8 @@ this.skaiCalendar = class extends ExtensionCommon.ExtensionAPI {
                   : "";
             setRecurrence(item, freq, until);
           }
-          await calendar.modifyItem(item, oldItem);
-          return true;
+          const saved = await calendar.modifyItem(item, oldItem);
+          return describe(calendar, saved || item);
         },
 
         async deleteEvent(id) {
@@ -338,8 +339,9 @@ this.skaiCalendar = class extends ExtensionCommon.ExtensionAPI {
           if (!isWritable(calendar)) {
             throw new Error(`calendar '${calendar.name}' is read-only`);
           }
+          const gone = describe(calendar, item);
           await calendar.deleteItem(item);
-          return true;
+          return gone;
         },
       },
     };
